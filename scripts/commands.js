@@ -7,6 +7,12 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
     if (userCommands.handleCommand(src, command, commandData, tar, channel) != "no command") {
         return;
     }
+    if (jokeCommands === undefined) {
+        jokeCommands = require("jokecommands.js");
+    }
+    if (jokeCommands.handleCommand(src, command, commandData, tar, channel) != "no command") {
+        return;
+    }
     if (modCommands === undefined) {
         modCommands = require("modcommands.js");
     }
