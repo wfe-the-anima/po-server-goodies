@@ -1,4 +1,74 @@
 exports.handleCommand = function(src, command, commandData, tar, channel) {
+    if (command == "rangeban") {
+        var subip;
+        var comment;
+        var space = commandData.indexOf(' ');
+        if (space != -1) {
+            subip = commandData.substring(0,space);
+            comment = commandData.substring(space+1);
+        } else {
+            subip = commandData;
+            comment = '';
+        }
+        /* check ip */
+        var i = 0;
+        var nums = 0;
+        var dots = 0;
+        var correct = (subip.length > 0); // zero length ip is baaad
+        while (i < subip.length) {
+            var c = subip[i];
+            if (c == '.' && nums > 0 && dots < 3) {
+                nums = 0;
+                ++dots;
+                ++i;
+            } else if (c == '.' && nums === 0) {
+                correct = false;
+                break;
+            } else if (/^[0-9]$/.test(c) && nums < 3) {
+                ++nums;
+                ++i;
+            } else {
+                correct = false;
+                break;
+            }
+        }
+        if (!correct) {
+            normalbot.sendMessage(src, "The IP address looks strange, you might want to correct it: " + subip, channel);
+            return;
+        }
+
+        /* add rangeban */
+        script.rangebans.add(subip, script.rangebans.escapeValue(comment) + " --- " + sys.name(src));
+        normalbot.sendAll("Rangeban added successfully for IP subrange: " + subip, staffchannel);
+        /* kick them */
+        var players = sys.playerIds();
+        var players_length = players.length;
+        var names = [];
+        for (var i = 0; i < players_length; ++i) {
+            var current_player = players[i];
+            var ip = sys.ip(current_player);
+            if (sys.auth(current_player) > 0) continue;
+            if (ip.substr(0, subip.length) == subip) {
+                names.push(sys.name(current_player));
+                sys.kick(current_player);
+                continue;
+            }
+        }
+        if (names.length > 0) {
+            sys.sendAll("±Jirachi: "+names.join(", ") + " got range banned by " + sys.name(src), staffchannel);
+        }
+        return;
+    }
+    if (command == "rangeunban") {
+        var subip = commandData;
+        if (script.rangebans.get(subip) !== undefined) {
+            script.rangebans.remove(subip);
+            normalbot.sendAll("Rangeban removed successfully for IP subrange: " + subip, staffchannel);
+        } else {
+            normalbot.sendMessage(src, "No such rangeban.", channel);
+        }
+        return;
+    }
     if (command == "memorydump") {
         sys.sendMessage(src, sys.memoryDump(), channel);
         return;
