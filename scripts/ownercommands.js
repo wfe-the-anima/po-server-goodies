@@ -707,7 +707,6 @@ exports.help =
         "/changeauth[s]: Changes the auth of a user. Format is /changeauth auth user. If using /changeauths, the change will be silent.",
         "/showteam: Displays the team of a user (to help people who have problems with event moves or invalid teams).",
         "/ip[un]ban: Bans an IP. Format is /ipban ip comment.",
-        "/range[un]ban: Makes a range ban. Format is /rangeban ip comment.",
         "/purgemutes: Purges mutes older than the given time in seconds. Default is 4 weeks.",
         "/purgesmutes: Purges smutes older than the given time in seconds. Default is 4 weeks.",
         "/purgembans: Purges mafiabans older than the given time in seconds. Default is 1 week.",
