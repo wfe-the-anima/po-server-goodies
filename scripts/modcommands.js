@@ -678,10 +678,15 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         script.unban("smute", src, tar, commandData);
         return;
     }
+    if (command == "warn") {
+        normalbot.sendAll("" + sys.name(src) + " has warned " commandData "! [Channel: "channel"]");
+        return;
+    }
     return "no command";
 };
 exports.help = 
     [
+        "/warn: warns someone.",
         "/k: Kicks someone.",
         "/mute: Mutes someone. Format is /mute name:reason:time. Time is optional and defaults to 1 day.",
         "/unmute: Unmutes someone.",
