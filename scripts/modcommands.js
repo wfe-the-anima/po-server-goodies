@@ -679,7 +679,7 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         return;
     }
     if (command == "warn") {
-        normalbot.sendAll("" + sys.name(src) + " has warned " commandData "! [Channel: "channel"]");
+        normalbot.sendAll("" + sys.name(src) + " has warned " +commandData "! [Channel: "channel"]");
         return;
     }
     return "no command";
