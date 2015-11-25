@@ -1,4 +1,4 @@
-var userCommands, modCommands, adminCommands, ownerCommands, channelCommands;
+var userCommands, modCommands, adminCommands, ownerCommands, channelCommands, jokeCommands;
 
 exports.handleCommand = function(src, command, commandData, tar, channel) {
     if (userCommands === undefined) {
