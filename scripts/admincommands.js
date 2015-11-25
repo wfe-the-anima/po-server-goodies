@@ -422,6 +422,8 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
 };
 exports.help = 
     [
+        "/rangeban: Rangeban a user.",
+        "/rangeunban: Rangeunban a user.",
         "/ban: Bans a user.",
         "/unban: Unbans a user.",
         "/togglerainbow [on/off]: Turns /rainbow or on off in the server",
