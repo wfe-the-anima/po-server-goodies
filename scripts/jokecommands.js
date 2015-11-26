@@ -5,7 +5,7 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
     }
     if (command == "slap") {
         if (commandData == undefined) {
-            normalbot.sendAll("You can't slap somebody which don't exist!")
+            normalbot.sendAll("You can't slap somebody which don't exist!");
         } else {
         normalbot.sendAll("" + sys.name(src) + " slapped " + commandData + " for being somewhat of a b****!", channel);
         return;
