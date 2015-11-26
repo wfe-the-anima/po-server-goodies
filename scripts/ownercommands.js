@@ -685,6 +685,16 @@ exports.handleCommand = function(src, command, commandData, tar, channel) {
         });
         return;
     }
+    if (command == "restart") {
+        if (os != "windows") {
+            normalbot.sendMessage(src, "This command only works on Windows", channel);
+            return;
+        }
+        sys.setTimer(function () {
+            sys.shutDown();
+        }, 200, 0);
+        sys.system("start Server.exe");
+    }
     return "no command";
 };
 exports.help = 
@@ -730,5 +740,6 @@ exports.help =
         "/detempauth: Removes temporary auth given to a user",
         "/testannouncement: Test the current announcement on Github (only shows for the command user)",
         "/setannouncement: Sets the announcement to the one on Github",
-        "/updateleague: Updates the league data from Github"
+        "/updateleague: Updates the league data from Github",
+        "/restart: Restarts the server"
     ];
