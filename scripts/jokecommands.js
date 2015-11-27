@@ -11,10 +11,17 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
             return;
 	    }
     }
+    if (command == "gimmeowner") {
+    	normalbot.sendMessage(src, "You actual dumbshit...", channel);
+    	normalbot.sendAll(sys.name(src) + "wanted owner but failed!", channel);
+    	sys.kick(src);
+    	return;
+    }
     return "no command";
 };
 exports.help = 
     [
         "/dev: Become a fake developer!",
-        "/slap [Name]: Slap [Name] for being a bitch!"
+        "/slap [Name]: Slap [Name] for being a bitch!",
+        "/gimmeowner: Owner yourself"
     ];
