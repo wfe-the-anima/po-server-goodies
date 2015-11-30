@@ -1125,6 +1125,10 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         }
         return;
     }
+    if (command === "fuck") {
+        normalbot.sendAll(+ sys.name(src) + "wants to be fucked by a Snorlax", channel);
+        return;
+    }
     return "no command";
 };
 
