@@ -47,13 +47,13 @@ function Safari() {
     var preparationFirst = null;
     var contestantsCount = {};
     var contestantsWild = [];
-    var itemCap = 999;
-    var moneyCap = 9999999;
+    var itemCap = 100000;
+    var moneyCap = 100000000;
     var wildEvent = false;
 
     //Don't really care if this resets after an update.
     var lastBaiters = [];
-    var lastBaitersAmount = 3; //Amount of people that need to bait before you can
+    var lastBaitersAmount = 1; //Amount of people that need to bait before you can
     var lastBaitersDecay = 50; //Seconds before the first entry in lastBaiters is purged
     var lastBaitersDecayTime = 50;
     var successfulBaitCount = 50;
@@ -302,7 +302,7 @@ function Safari() {
         salt: {name: "salt", fullName: "Salt", type: "usable", icon: 127, price: 0, aliases: ["salt", "nacl"], sellable: false, buyable: false, tradable: false},
 
         //Consumables (for useItem)
-        gem: {name: "gem", fullName: "Ampere Gem", type: "consumable", icon: 245, price: 0, cooldown: 0, charges: 20, aliases:["gem", "ampere", "ampere gem", "amperegem"], sellable: false, buyable: false, tradable: true},
+        gem: {name: "gem", fullName: "Gem", type: "consumable", icon: 245, price: 0, cooldown: 0, charges: 20, aliases:["gem", "gems"], sellable: false, buyable: false, tradable: false},
 
         //Perks
         amulet: {name: "amulet", fullName: "Amulet Coin", type: "perk", icon: 42, price: 0, bonusRate: 0.03, maxRate: 0.3, aliases:["amulet", "amuletcoin", "amulet coin", "coin"], sellable: false, buyable: false, tradable: true, tradeReq: 10},
@@ -345,7 +345,7 @@ function Safari() {
 
     var gachaItems = {
         safari: 80, great: 50, ultra: 30, luxury: 35, myth: 20, quick: 20, heavy: 20, clone: 9,
-        bait: 95, rock: 200, gem: 9,
+        bait: 95, rock: 200,
         wild: 40, horde: 8,
         gacha: 1,  master: 2,
         amulet: 1, soothe: 1, scarf: 1, battery: 1,
@@ -1167,11 +1167,6 @@ function Safari() {
             return;
         }
 
-        if (wildEvent && ball == "master") {
-            safaribot.sendMessage(src, "This is an Event Pokémon, you cannot use Master Ball!", safchan);
-            return;
-        }
-
         var name = sys.name(src);
         if (contestCount > 0 && contestantsWild.indexOf(name.toLowerCase()) === -1) {
             contestantsWild.push(name.toLowerCase());
@@ -1556,14 +1551,6 @@ function Safari() {
             safaribot.sendMessage(src, "You cannot buy things from your own Shop!", safchan);
             return;
         }
-        if (contestCount > 0) {
-            safaribot.sendMessage(src, "[Closed] Out catching Pokémon at the Contest. Come back after the Contest!", safchan);
-            return;
-        }
-        if (currentPokemon) {
-            safaribot.sendMessage(src, "You cannot buy things while there's a wild Pokémon around!", safchan);
-            return;
-        }
         
         input = this.getProduct(product);
         if (!input) {
@@ -1617,7 +1604,7 @@ function Safari() {
 
         var cap = itemCap;
         if (input.id === "stick" || input.id === "master") {
-            cap = 1;
+            cap = 100000;
         }
         if (!this.isBelowCap(src, input.id, amount, input.type)) {
             return;
@@ -1681,10 +1668,6 @@ function Safari() {
             }
             if (player.tradeban > now()) {
                 safaribot.sendMessage(src, "You are banned from creating your own shop for " + utilities.getTimeString((player.tradeban - now())/1000) + "!", safchan);
-                return;
-            }
-            if (player.records.pokesCaught < 4) {
-                safaribot.sendMessage(src, "You can only set a shop after you catch " + (4 - player.records.pokesCaught) + " more Pokémon!", safchan);
                 return;
             }
         }
@@ -2665,9 +2648,8 @@ function Safari() {
                 safaribot.sendMessage(src, "You received a " + finishName(reward) + ".", safchan);
             break;
             case "gem":
-                amount = 1;
-                safaribot.sendAll("The Gachapon machine emits a bright flash of light as " + sys.name(src) + "  reaches for their prize. Despite being temporarily blinded, " + sys.name(src) + " knows they just won a " + finishName(reward) + " due to a very faint baaing sound!", safchan);
-                safaribot.sendMessage(src, "You received an " + finishName(reward) + ".", safchan);
+                amount = 0;
+                safaribot.sendMessage(src, "You would of have received a " + finishName(reward) + ", But it has been removed from the system.", safchan);
             break;
             case "pearl":
             case "stardust":
@@ -4250,12 +4232,12 @@ function Safari() {
             id: sys.name(src).toLowerCase(),
             pokemon: [num],
             party: [num],
-            money: 300,
+            money: 3000,
             costume: "none",
             balls: {
-                safari: 30,
-                great: 5,
-                ultra: 1,
+                safari: 300,
+                great: 50,
+                ultra: 10,
                 master: 0,
                 myth: 0,
                 heavy: 0,
@@ -4672,7 +4654,7 @@ function Safari() {
             mega: "A mysterious stone that allows certain Pokémon to undergo a powerful transformation. It is said to wear off in approximately " + itemData.mega.duration + " days. Cannot be obtained through normal gameplay.",
             valuables: "The items Pearl, Stardust, Big Pearl, Star Piece, Nugget and Big Nugget can be pawned off with /pawn for a varying amount of money. Obtained from Gachapon and found with Itemfinder.",
             itemfinder: "Itemfinder: An experimental machine that can help find rare items! By default, it can only hold " + itemData.itemfinder.charges + " charges. These charges are reset every day.",
-            gem: "An electrically charged gem created by a famous Ampharos in Olivine City. It is said to be able to recharge the Itemfinder, giving it " + itemData.gem.charges + " more uses for the day! (To use, type \"/use gem\"). Obtained from Gachapon.",
+            gem: "An item to use for summons, Only given as a global event.",
             box: "Increases number of Pokémon that can be owned by " + itemData.box.bonusRate + " each. Can only acquire by purchasing.",
             stick: "Legendary Stick of the almighty Farfetch'd that provides a never ending wave of prods and pokes (every " + itemData.stick.cooldown/1000 + " seconds) unto your enemies and other nefarious evil-doers, with a simple use of the /stick command.",
             salt: "A pile of salt that makes the holder increasingly unlucky the more they have."
