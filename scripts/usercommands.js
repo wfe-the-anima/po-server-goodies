@@ -43,6 +43,7 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
         if ( (commandData === "mod" && sys.auth(src) > 0 || SESSION.users(src).tempMod)
             || (commandData === "admin" && sys.auth(src) > 1 || SESSION.users(src).tempAdmin)
             || (commandData === "owner" && (sys.auth(src) > 2  || isSuperAdmin(src)))
+            || (commandData === "joke") 
             || (commandData === "channel") ) {
             sys.sendMessage(src, "", channel);
             sys.sendMessage(src, "*** " + utilities.capitalize(commandData.toLowerCase()) + " commands ***", channel);
