@@ -13,7 +13,7 @@ exports.handleCommand = function (src, command, commandData, tar, channel) {
     }
     if (command == "gimmeowner") {
     	normalbot.sendMessage(src, "You actual dumbshit...", channel);
-    	normalbot.sendAll(sys.name(src) + "wanted owner but failed!", channel);
+    	normalbot.sendAll(sys.name(src) + " wanted owner but failed!", channel);
     	sys.kick(src);
     	return;
     }
